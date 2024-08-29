@@ -1,0 +1,43 @@
+1.Start the MariaDB container with environment variables for the root password and database name:
+run this command
+
+"docker container run -d --name database -e MARIADB_ROOT_PASSWORD=punit312 -e MARIADB_DATABASE=wordpress mariadb:latest"
+
+Note: Replace MARIADB_ROOT_PASSWORD value with your own password
+
+2.Access the MariaDB Container
+docker container exec -it database /bin/bash
+mariadb -u root -p
+# Enter the root password (punit312)
+show databases;
+
+3. Pull WordPress Image with this command
+
+"docker image pull wordpress:latest"
+
+4. Find Database IP Address
+
+"docker container inspect database | grep -i ip"
+
+5.Run WordPress Container
+
+"docker container run -d --name wordpress -e WORDPRESS_DB_HOST=<DATABASE_IP> -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=punit312 -e WORDPRESS_DB_NAME=wordpress --link database -p 80:80 -v wordpress:/var/www/html wordpress:latest"
+
+Note: Replace the DATABASE_IP with your database container ip and replace WORDPRESS_DB_PASSWORD value.
+
+6. Set Up WordPress
+Open your web browser and navigate to the IP address of your Docker host on port 80.
+Follow the on-screen instructions to complete the WordPress setup.
+
+7. Verify Database Connection
+
+"docker container exec -it database /bin/bash"
+"mariadb -u root -p"
+"use wordpress;"
+"show tables;"
+
+8. Note on Database Persistence
+If the MariaDB container is deleted, the WordPress site will lose its database connection, resulting in the error: "Error Establishing a Database Connection."
+
+
+
