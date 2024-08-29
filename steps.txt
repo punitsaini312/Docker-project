@@ -6,6 +6,7 @@ run this command
 Note: Replace MARIADB_ROOT_PASSWORD value with your own password
 
 2.Access the MariaDB Container
+
 docker container exec -it database /bin/bash
 mariadb -u root -p
 # Enter the root password (punit312)
